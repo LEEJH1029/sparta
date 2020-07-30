@@ -10,5 +10,3 @@ target_movies = list(db.movies.find({'star': target_star}))
 for target_movie in target_movies:
     print(target_movie['title'])
 db.movies.update_many({'star': target_star}, {'$set': {'star': '0'}})
-
-print("hello git")
