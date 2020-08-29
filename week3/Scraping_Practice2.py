@@ -13,3 +13,7 @@ for team_rank in table:
     team_name = team_rank.select_one('td.tm > div > span').text
 
     print(rank, team_name)
+
+#team_NC
+#regularTeamRecordList_table > tr:nth-child(1) > th > strong
+#regularTeamRecordList_table > tr:nth-child(2) > th > strong
