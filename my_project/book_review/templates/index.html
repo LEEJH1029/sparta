@@ -80,7 +80,6 @@
                     if (response["result"] == "success") {
                         let reviews = response["msg"];
                         for (let i = 0; i < reviews.length; i++) {
-                            console.log(reviews[i]);
                             let author = reviews[i]['author'];
                             let bookReview = reviews[i]['book_review'];
                             let title = reviews[i]['title'];

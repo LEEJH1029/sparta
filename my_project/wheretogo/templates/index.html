@@ -1,0 +1,347 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>오늘 어디가지?</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <link rel="manifest" href="site.webmanifest"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="../static/img/favicon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../static/css/magnific-popup.css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../static/css/themify-icons.css">
+    <link rel="stylesheet" href="../static/css/nice-select.css">
+    <link rel="stylesheet" href="../static/css/flaticon.css">
+    <link rel="stylesheet" href="../static/css/gijgo.css">
+    <link rel="stylesheet" href="../static/css/animate.css">
+    <link rel="stylesheet" href="../static/css/slick.css">
+    <link rel="stylesheet" href="../static/css/slicknav.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
+    <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../static/css/style.css">
+    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+    <style>
+        .start-page {
+            color: white;
+            background-image: url('https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1200,h_630,f_auto/w_80,x_15,y_15,g_south_west,l_klook_water/activities/qwo9klmec2tcooqke60l/%EA%B2%BD%EB%B3%B5%EA%B6%81%20%EA%B0%80%EC%9D%B4%EB%93%9C%20%ED%88%AC%EC%96%B4.jpg');
+            background-size: cover;
+            padding-top: 100px;
+            padding-bottom: 100px;
+
+            text-align: center;
+
+            width: auto;
+            height: 600px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+        }
+
+        .font1 {
+            font-size: 50px;
+            color: black;
+            font-family: 'Yeon Sung', cursive;
+        }
+
+        .font2 {
+            font-size: 25px;
+            color: white;
+            font-family: 'Yeon Sung', cursive;
+        }
+
+        .weather {
+            margin-left: auto;
+        }
+
+        .footer_widget {
+            margin-left: auto;
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            showWeather();
+        });
+
+        function showWeather() {
+            $.ajax({
+                type: "GET",
+                url: "https://api.openweathermap.org/data/2.5/onecall?lat=37.557563&lon=126.976438&exclude=current,%20minutely,%20hourly&appid=6dae93805c76729c7ead695443c6856d",
+                data: {},
+                success: function (response) {
+                    let currentTemp = (response['daily'][0]['temp']['day'] - 273.15).toFixed(1)
+                    let weathericon = response['daily'][0]['weather'][0]['icon']
+                    console.log(currentTemp)
+                    let newData = `<div class="weather">
+                                            현재 서울 날씨: ${currentTemp}℃
+                                            <img class="icon" src="http://openweathermap.org/img/wn/${weathericon}@2x.png"
+                                        </div>`
+
+                    $('#currrentWeather').append(newData);
+                }
+
+
+            })
+        }
+    </script>
+</head>
+
+<body>
+<!--[if lte IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
+    your browser</a> to improve your experience and security.</p>
+<![endif]-->
+
+<!-- header-start -->
+<header>
+    <div class="header-area ">
+        <div id="sticky-header" class="main-header-area">
+            <div class="container-fluid">
+                <div class="header_bottom_border">
+                    <div class="row align-items-center">
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="../static/img/logo.png" alt="">
+                            </a>
+                        </div>
+                        <div id="currrentWeather" class="weather">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</header>
+<!-- header-end -->
+
+<div class="start-page">
+    <h3 class="font1">대한민국</h3>
+    <p class="font2">날짜와 날씨에 따라 국내 추천 여행지를 검색하세요</p>
+</div>
+
+<!-- where_togo_area_start  -->
+<div class="where_togo_area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-3">
+                <div class="form_area">
+                    <h3>어디로 가고 싶으신가요?</h3>
+                </div>
+            </div>
+            <br>
+            <div class="col-lg-9">
+                <div class="search_wrap">
+                    <form method="get" class="search_form" action="input.php">
+                        <div class="input_field">
+                            <select>
+                                <option data-display="지역"></option>
+                                <option value="1">서울</option>
+                                <option value="2">부산</option>
+                                <option value="3">대구</option>
+                                <option value="4">인천</option>
+                                <option value="5">광주</option>
+                                <option value="6">대전</option>
+                                <option value="7">울산</option>
+                                <option value="8">경기</option>
+                                <option value="9">강원</option>
+                                <option value="10">충북</option>
+                                <option value="11">충남</option>
+                                <option value="12">경북</option>
+                                <option value="13">경남</option>
+                                <option value="14">전북</option>
+                                <option value="15">전남</option>
+                                <option value="16">제주</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="input_field">
+                            <input id="datepicker" placeholder="날짜" autocomplete=”off”>
+                        </div>
+                        <br>
+                        <div class="search_btn">
+                            <input class="boxed-btn4" type="submit" value="검색">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- where_togo_area_end  -->
+
+<!-- popular_destination_area_start  -->
+<div class="popular_destination_area">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section_title text-center mb_70">
+                    <h3>추천 관광</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="single_destination">
+                    <div class="thumb">
+                        <img src="../static/img/seoul2.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <p class="d-flex align-items-center">서울 <a href="result_Seoul.html" target="_blank"> 100 Places</a></p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_destination">
+                    <div class="thumb">
+                        <img src="../static/img/busan.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <p class="d-flex align-items-center">부산 <a href="result_Busan.html" target="_blank"> 100 Places</a></p>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single_destination">
+                    <div class="thumb">
+                        <img src="../static/img/jeju.jpg" alt="">
+                    </div>
+                    <div class="content">
+                        <p class="d-flex align-items-center">제주<a href="travel_destination.html" target="_blank"> 100 Places</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer_top">
+        <div class="container">
+            <div class="row">
+                <div class="footer_widget">
+                    <p>서울특별시 강남구 논현로 425 (마이다스빌딩) 5층 501호<br>
+                        <p>010-8619-8438</p>
+                        <p>where2go@naver.com</p>
+                    </p>
+                    <div class="socail_links">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <i class="ti-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="ti-twitter-alt"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copy-right_text">
+        <div class="container">
+            <div class="footer_border"></div>
+            <div class="row">
+                <div class="col-xl-12">
+                    <p class="copy_right text-center">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                        All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                            aria-hidden="true"></i> by <a
+                            href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Modal -->
+<!--<div class="modal fade custom_search_pop" id="exampleModalCenter" tabindex="-1" role="dialog"-->
+<!--     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="serch_form">-->
+<!--                <input type="text" placeholder="Search">-->
+<!--                <button type="submit">search</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!-- link that opens popup -->
+<!--     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script>
+
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"> </script> -->
+<!-- JS here -->
+<script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="../static/js/popper.min.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/owl.carousel.min.js"></script>
+<script src="../static/js/isotope.pkgd.min.js"></script>
+<script src="../static/js/ajax-form.js"></script>
+<script src="../static/js/waypoints.min.js"></script>
+<script src="../static/js/jquery.counterup.min.js"></script>
+<script src="../static/js/imagesloaded.pkgd.min.js"></script>
+<script src="../static/js/scrollIt.js"></script>
+<script src="../static/js/jquery.scrollUp.min.js"></script>
+<script src="../static/js/wow.min.js"></script>
+<script src="../static/js/nice-select.min.js"></script>
+<script src="../static/js/jquery.slicknav.min.js"></script>
+<script src="../static/js/jquery.magnific-popup.min.js"></script>
+<script src="../static/js/plugins.js"></script>
+<script src="../static/js/gijgo.min.js"></script>
+<script src="../static/js/slick.min.js"></script>
+
+
+<!--contact js-->
+<script src="../static/js/contact.js"></script>
+<script src="../static/js/jquery.ajaxchimp.min.js"></script>
+<script src="../static/js/jquery.form.js"></script>
+<script src="../static/js/jquery.validate.min.js"></script>
+<script src="../static/js/mail-script.js"></script>
+
+
+<script src="../static/js/main.js"></script>
+<script>
+    $('#datepicker').datepicker({
+        iconsLibrary: 'fontawesome',
+        icons: {
+            rightIcon: '<span class="fa fa-caret-down"></span>'
+        }
+    });
+</script>
+</body>
+
+</html>
