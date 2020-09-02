@@ -55,11 +55,12 @@
                     let date = parseInt(response['daily'][7]['dt'])
                     let temp = (response['daily'][7]['temp']['day'] - 273.15).toFixed(1)
                     let weathericon = response['daily'][7]['weather'][0]['icon']
-                    let milliseconds = date + '000'
-                    let KST = new Date(milliseconds);
-                    console.log(KST, temp)
+                    let milliseconds = parseInt(date + '000')
+                    let time = new Date(milliseconds);
+                    let month = time.getMonth()+1
+                    let day = time.getDate()
                     let newData = `<div class="weather">
-                                            ${KST} 서울 날씨: ${temp}℃
+                                            ${month}월 ${day}일 서울 날씨: ${temp}℃
                                             <img class="icon" src="http://openweathermap.org/img/wn/${weathericon}@2x.png"
                                         </div>`
 

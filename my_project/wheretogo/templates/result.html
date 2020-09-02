@@ -29,12 +29,66 @@
 
     <link rel="stylesheet" href="../static/css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+
+    <style>
+        .weather {
+            margin-left: auto;
+        }
+
+        .icon {
+            height: 50px;
+            width: 50px;
+        }
+    </style>
+
     <script>
         $(document).ready(function () {
-            showStar();
+            showWeather_Seoul()
+            // console.log({{ selected_date }})
+            // if ('{{ selected_place }}' == 1) {
+            //     showWeather_Seoul();
+            //     return
+            // }
+            // if ('{{ selected_place }}' == 2) {
+            //     showWeather_Busan();
+            //     return
+            // }
         });
 
-        function showStar() {
+        function showWeather_Seoul() {
+            $.ajax({
+                type: "GET",
+                url: "https://api.openweathermap.org/data/2.5/onecall?lat=37.557563&lon=126.976438&exclude=current,%20minutely,%20hourly&appid=6dae93805c76729c7ead695443c6856d",
+                data: {},
+                success: function (response) {
+                    let date = parseInt(response['daily'][7]['dt'])
+                    let temp = (response['daily'][7]['temp']['day'] - 273.15).toFixed(1)
+                    let weathericon = response['daily'][7]['weather'][0]['icon']
+                    let milliseconds = parseInt(date + '000')
+                    let time = new Date(milliseconds);
+                    let month = time.getMonth() + 1
+                    let day = time.getDate()
+                    let newData = `<div class="weather">
+                                            ${month}월 ${day}일 서울 날씨: ${temp}℃
+                                            <img class="icon" src="http://openweathermap.org/img/wn/${weathericon}@2x.png"
+                                        </div>`
+
+                    $('#DayWeather').append(newData);
+
+                    if (response['daily'][7]['weather'][0]['main'] == "Rain") {
+                        showInsidePlaces_Seoul()
+                        return
+                    } else {
+                        showPlaces_Seoul()
+                        return
+                    }
+                }
+
+
+            })
+        }
+
+        function showInsidePlaces_Seoul() {
             $.ajax({
                 type: 'GET',
                 url: '/places/Seoul',
@@ -43,7 +97,51 @@
                     if (response['result'] == 'success') {
                         let places = response['places']
                         for (let i = 0; i < places.length; i++) {
-                            // if (places[i]['areaCode'] == 1) {
+                            if (places[i]['inside'] == 1) {
+                                let title = places[i]['title']
+                                let address = places[i]['addr1']
+
+                                console.log(places[0]['areaCode'])
+
+                                let tempHtml = `<div class="col-lg-4 col-md-6">
+                                                    <div class="single_place">
+                                                        <div class="thumb">
+                                                            <img src="../static/img/place/1.png" alt="">
+                                                        </div>
+                                                        <div class="place_info">
+                                                            <h3>${title}</h3>
+                                                            <p>${address}</p>
+                                                            <br>
+                                                            <div>
+                                                                <button class="btn btn-success"
+                                                                        onclick="window.open('https://map.naver.com/v5/search/${address}')">
+                                                                    지도에 검색
+                                                                </button>
+                                                                <button class="btn btn-success"
+                                                                        onclick="window.open('https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=${title}')">
+                                                                    네이버에 검색
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                             </div>`
+                                $('#post-places').append(tempHtml)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
+        function showPlaces_Seoul() {
+            $.ajax({
+                type: 'GET',
+                url: '/places/Seoul',
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        let places = response['places']
+                        for (let i = 0; i < places.length; i++) {
                             let title = places[i]['title']
                             let address = places[i]['addr1']
 
@@ -57,13 +155,6 @@
                                                         <div class="place_info">
                                                             <h3>${title}</h3>
                                                             <p>${address}</p>
-<!--                                                            <details>-->
-<!--                                                                <summary>소개글</summary>-->
-<!--                                                                <p>서울식물원은 세계 12개 도시 식물과 식물문화를 소개하고 도시의 생태감수성을 높이기 위해 서울에 남은 마지막 개발지, 마곡에 조성되었으며, 식물원과 공원을-->
-<!--                                                                    결합한 이른바 ''보타닉 공원''으로서 면적은 축구장 70개 크기에 달한다. 멸종위기 야생식물 서식지를 확대하고 번식이 어려운 종의 증식 연구, 품종개발 등-->
-<!--                                                                    식물의 육성이라는 식물연구보전기관 본연의 역할은 물론, 도시 정원문화 확산의 교두보이자 평생교육 기관의 역할을 수행한다. 식물원은 열린숲과 주제원, 호수원,-->
-<!--                                                                    습지원 들 4가지 공간으로 나뉘며 그 중 하이라이트는 식물문화센터와 야외 주제정원, 마곡문화관이 포함된 주제원이다.</p>-->
-<!--                                                            </details>-->
                                                             <br>
                                                             <div>
                                                                 <button class="btn btn-success"
@@ -79,13 +170,133 @@
                                                     </div>
                                              </div>`
                             $('#post-places').append(tempHtml)
-                            // }
-
                         }
                     }
                 }
             })
         }
+
+        function showWeather_Busan() {
+            $.ajax({
+                type: "GET",
+                url: "https://api.openweathermap.org/data/2.5/onecall?lat=35.154039&lon=129.040598&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d",
+                data: {},
+                success: function (response) {
+                    let date = parseInt(response['daily'][7]['dt'])
+                    let temp = (response['daily'][7]['temp']['day'] - 273.15).toFixed(1)
+                    let weathericon = response['daily'][7]['weather'][0]['icon']
+                    let milliseconds = parseInt(date + '000')
+                    let time = new Date(milliseconds);
+                    let month = time.getMonth() + 1
+                    let day = time.getDate()
+                    let newData = `<div class="weather">
+                                            ${month}월 ${day}일 부산 날씨: ${temp}℃
+                                            <img class="icon" src="http://openweathermap.org/img/wn/${weathericon}@2x.png"
+                                        </div>`
+
+                    $('#DayWeather').append(newData);
+
+                    if (response['daily'][7]['weather'][0]['main'] == "Rain") {
+                        showInsidePlaces_Busan()
+                        return
+                    } else {
+                        showPlaces_Busan()
+                        return
+                    }
+                }
+
+
+            })
+        }
+
+        function showInsidePlaces_Busan() {
+            $.ajax({
+                type: 'GET',
+                url: '/places/Busan',
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        let places = response['places']
+                        for (let i = 0; i < places.length; i++) {
+                            if (places[i]['inside'] == 1) {
+                                let title = places[i]['title']
+                                let address = places[i]['addr1']
+
+                                console.log(places[0]['areaCode'])
+
+                                let tempHtml = `<div class="col-lg-4 col-md-6">
+                                                    <div class="single_place">
+                                                        <div class="thumb">
+                                                            <img src="../static/img/place/1.png" alt="">
+                                                        </div>
+                                                        <div class="place_info">
+                                                            <h3>${title}</h3>
+                                                            <p>${address}</p>
+                                                            <br>
+                                                            <div>
+                                                                <button class="btn btn-success"
+                                                                        onclick="window.open('https://map.naver.com/v5/search/${address}')">
+                                                                    지도에 검색
+                                                                </button>
+                                                                <button class="btn btn-success"
+                                                                        onclick="window.open('https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=${title}')">
+                                                                    네이버에 검색
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                             </div>`
+                                $('#post-places').append(tempHtml)
+                            }
+                        }
+                    }
+                }
+            })
+        }
+
+        function showPlaces_Busan() {
+            $.ajax({
+                type: 'GET',
+                url: '/places/Busan',
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        let places = response['places']
+                        for (let i = 0; i < places.length; i++) {
+                            let title = places[i]['title']
+                            let address = places[i]['addr1']
+
+                            console.log(places[0]['areaCode'])
+
+                            let tempHtml = `<div class="col-lg-4 col-md-6">
+                                                    <div class="single_place">
+                                                        <div class="thumb">
+                                                            <img src="../static/img/place/1.png" alt="">
+                                                        </div>
+                                                        <div class="place_info">
+                                                            <h3>${title}</h3>
+                                                            <p>${address}</p>
+                                                            <br>
+                                                            <div>
+                                                                <button class="btn btn-success"
+                                                                        onclick="window.open('https://map.naver.com/v5/search/${address}')">
+                                                                    지도에 검색
+                                                                </button>
+                                                                <button class="btn btn-success"
+                                                                        onclick="window.open('https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=${title}')">
+                                                                    네이버에 검색
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                             </div>`
+                            $('#post-places').append(tempHtml)
+                        }
+                    }
+                }
+            })
+        }
+
 
     </script>
 </head>
@@ -103,12 +314,12 @@
             <div class="container-fluid">
                 <div class="header_bottom_border">
                     <div class="row align-items-center">
-                        <div class="col-xl-2 col-lg-2">
-                            <div class="logo">
-                                <a href="index.html">
-                                    <img src="../static/img/logo.png" alt="">
-                                </a>
-                            </div>
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="../static/img/logo.png" alt="">
+                            </a>
+                        </div>
+                        <div id="DayWeather" class="weather">
                         </div>
                     </div>
                 </div>
@@ -123,6 +334,9 @@
         <h3>Seoul</h3>
     </div>
 </div>
+<!--<div>-->
+<!--    <img src="../static/img/title_Seoul.jpg" height="640" width="1280"/>-->
+<!--</div>-->
 
 <div class="popular_places_area">
     <div class="container">
@@ -155,50 +369,31 @@
     <div class="footer_top">
         <div class="container">
             <div class="row">
-                <div class="col-xl-4 col-md-6 col-lg-4 ">
-                    <div class="footer_widget">
-                        <p>서울특별시 강남구 논현로 425 (마이다스빌딩) 5층 501호<br>
-                            <a href="#">010-8619-8438</a> <br>
-                            <a href="#">where2go@naver.com</a>
-                        </p>
-                        <div class="socail_links">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti-twitter-alt"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-lg-3">
-                    <div class="footer_widget">
-                        <h3 class="footer_title">
-                            추천 관광
-                        </h3>
-                        <ul class="links double_links">
-                            <li><a href="#">서울</a></li>
-                            <li><a href="#">부산</a></li>
-                            <li><a href="#">수원</a></li>
-                            <li><a href="#">강릉</a></li>
-                            <li><a href="#">인천</a></li>
-                            <li><a href="#">제주</a></li>
-                            <li><a href="#">독도</a></li>
-                            <li><a href="#">가평</a></li>
+                <div class="footer_widget">
+                    <p>서울특별시 강남구 논현로 425 (마이다스빌딩) 5층 501호<br>
+                        <a href="#">010-8619-8438</a> <br>
+                        <a href="#">where2go@naver.com</a>
+                    </p>
+                    <div class="socail_links">
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <i class="ti-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="ti-twitter-alt"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </li>
                         </ul>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -224,17 +419,17 @@
 
 
 <!-- Modal -->
-<div class="modal fade custom_search_pop" id="exampleModalCenter" tabindex="-1" role="dialog"
-     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="serch_form">
-                <input type="text" placeholder="Search">
-                <button type="submit">search</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<div class="modal fade custom_search_pop" id="exampleModalCenter" tabindex="-1" role="dialog"-->
+<!--     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="serch_form">-->
+<!--                <input type="text" placeholder="Search">-->
+<!--                <button type="submit">search</button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 <!-- link that opens popup -->
 <!--
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -31,6 +31,7 @@
 
     <link rel="stylesheet" href="../static/css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+
     <style>
         .start-page {
             color: white;
@@ -71,6 +72,11 @@
             width: 50px;
             height: 50px;
         }
+
+        #input_date {
+            width: 180px
+            color: gray;
+        }
     </style>
 
     <script>
@@ -98,16 +104,40 @@
 
             })
         }
+
+        function PageMove() {
+            let date = new Date()
+            date.setDate(date.getDate() + 2);
+            let newDate = date.getDate()
+
+            let selected_date = parseInt($('#input_date').val().split('-')[2])
+
+            console.log(newDate, selected_date)
+
+            let selected_place = parseInt($('#tour_place').val())
+            console.log(selected_place)
+
+            $.ajax({
+                type: "POST",
+                url: "/result",
+                data: {
+                    'selected_date': selected_date,
+                    'selected_place': selected_place,
+                },
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        alert('완료하였습니다!')
+                    }
+                }
+            })
+        }
+
+
     </script>
 </head>
 
 <body>
-<!--[if lte IE 9]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
-    your browser</a> to improve your experience and security.</p>
-<![endif]-->
 
-<!-- header-start -->
 <header>
     <div class="header-area ">
         <div id="sticky-header" class="main-header-area">
@@ -147,9 +177,9 @@
             <br>
             <div class="col-lg-9">
                 <div class="search_wrap">
-                    <form method="get" class="search_form" action="input.php">
+                    <form method="POST" class="search_form" autocomplete=”off” action="http://localhost:5000/result">
                         <div class="input_field">
-                            <select>
+                            <select id="tour_place">
                                 <option data-display="지역"></option>
                                 <option value="1">서울</option>
                                 <option value="2">부산</option>
@@ -171,11 +201,12 @@
                         </div>
                         <br>
                         <div class="input_field">
-                            <input id="datepicker" placeholder="날짜" autocomplete=”off”>
+                            <input type="date" id="input_date" max="9999-12-31">
                         </div>
                         <br>
                         <div class="search_btn">
-                            <input class="boxed-btn4" type="submit" value="검색">
+                            <input class="boxed-btn4" type="submit" value="검색"
+                                   onclick="PageMove(); location.href='result.html'">
                         </div>
                     </form>
                 </div>
@@ -202,7 +233,8 @@
                         <img src="../static/img/seoul2.jpg" alt="">
                     </div>
                     <div class="content">
-                        <p class="d-flex align-items-center">서울 <a href="result_Seoul.html" target="_blank"> 100 Places</a></p>
+                        <p class="d-flex align-items-center">서울 <a href="result_Seoul.html" target="_blank"> 100
+                            Places</a></p>
 
                     </div>
                 </div>
@@ -213,7 +245,8 @@
                         <img src="../static/img/busan.jpg" alt="">
                     </div>
                     <div class="content">
-                        <p class="d-flex align-items-center">부산 <a href="result_Busan.html" target="_blank"> 100 Places</a></p>
+                        <p class="d-flex align-items-center">부산 <a href="result_Busan.html" target="_blank"> 100
+                            Places</a></p>
 
                     </div>
                 </div>
@@ -224,7 +257,8 @@
                         <img src="../static/img/jeju.jpg" alt="">
                     </div>
                     <div class="content">
-                        <p class="d-flex align-items-center">제주<a href="travel_destination.html" target="_blank"> 100 Places</a>
+                        <p class="d-flex align-items-center">제주<a href="travel_destination.html" target="_blank"> 100
+                            Places</a>
                         </p>
                     </div>
                 </div>
@@ -239,8 +273,8 @@
             <div class="row">
                 <div class="footer_widget">
                     <p>서울특별시 강남구 논현로 425 (마이다스빌딩) 5층 501호<br>
-                        <p>010-8619-8438</p>
-                        <p>where2go@naver.com</p>
+                    <p>010-8619-8438</p>
+                    <p>where2go@naver.com</p>
                     </p>
                     <div class="socail_links">
                         <ul>
