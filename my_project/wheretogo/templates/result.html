@@ -4,16 +4,13 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>서울(Seoul)</title>
+    <title>오늘 어디가지?</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link rel="shortcut icon" type="image/x-icon" href="../static/img/favicon.png">
-    <!-- Place favicon.ico in the root directory -->
 
-    <!-- CSS here -->
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
     <link rel="stylesheet" href="../static/css/magnific-popup.css">
@@ -28,7 +25,6 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="../static/css/style.css">
-    <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
     <style>
         .weather {
@@ -43,7 +39,6 @@
 
     <script>
         $(document).ready(function () {
-            console.log('{{ selected_date }}')
             let url;
             let area;
             if ('{{ selected_place }}' == 1) {
@@ -58,7 +53,6 @@
             date.setDate(date.getDate());
             let newDate = date.getDate()
             let minusDate = parseInt('{{ selected_date }}'- newDate)
-            console.log(minusDate)
             $('#place-title').append(area+ ' 검색 결과')
             showWeather(url, area, minusDate);
         });
@@ -80,7 +74,6 @@
                                             ${month}월 ${day}일 ${area} 날씨: ${temp}℃
                                             <img class="icon" src="http://openweathermap.org/img/wn/${weathericon}@2x.png"
                                         </div>`
-
                     $('#DayWeather').append(newData);
 
                     let inside;
@@ -107,8 +100,6 @@
                             let title = places[i]['title']
                             let address = places[i]['addr1']
                             let imgsrc = places[i]['imgPath']
-
-                            console.log(places[0]['areaCode'])
 
                             let tempHtml = `<div class="col-lg-4 col-md-6">
                                                     <div class="single_place">
@@ -138,18 +129,10 @@
                 }
             })
         }
-
-
     </script>
 </head>
 
 <body>
-<!--[if lte IE 9]>
-<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade
-    your browser</a> to improve your experience and security.</p>
-<![endif]-->
-
-<!-- header-start -->
 <header>
     <div class="header-area ">
         <div id="sticky-header" class="main-header-area">
@@ -170,15 +153,12 @@
         </div>
     </div>
 </header>
-<!-- header-end -->
+
 <div class="destination_banner_wrap overlay">
     <div class="destination_text text-center">
         <h3>Travel in Korea</h3>
     </div>
 </div>
-<!--<div>-->
-<!--    <img src="../static/img/title_Seoul.jpg" height="640" width="1280"/>-->
-<!--</div>-->
 
 <div class="popular_places_area">
     <div class="container">
@@ -260,25 +240,6 @@
 </footer>
 
 
-<!-- Modal -->
-<!--<div class="modal fade custom_search_pop" id="exampleModalCenter" tabindex="-1" role="dialog"-->
-<!--     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
-<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="serch_form">-->
-<!--                <input type="text" placeholder="Search">-->
-<!--                <button type="submit">search</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-<!-- link that opens popup -->
-<!--
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script>
-
-    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"> </script> -->
-<!-- JS here -->
 <script src="../static/js/vendor/modernizr-3.5.0.min.js"></script>
 <script src="../static/js/vendor/jquery-1.12.4.min.js"></script>
 <script src="../static/js/popper.min.js"></script>
