@@ -100,8 +100,6 @@
 
                     $('#currrentWeather').append(newData);
                 }
-
-
             })
         }
 
@@ -121,8 +119,8 @@
                 type: "POST",
                 url: "/result",
                 data: {
-                    'selected_date': selected_date,
-                    'selected_place': selected_place,
+                    selected_date: selected_date,
+                    selected_place: selected_place,
                 },
                 success: function (response) {
                     if (response["result"] == "success") {

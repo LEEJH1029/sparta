@@ -24,15 +24,6 @@ def result():
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
 
-# @app.route('/result', methods=['POST', 'GET'])
-# def result():
-#     if request.method == 'POST':
-#         # selected_place = request.form['selected_place']
-#         selected_date = request.form['selected_date']
-#         print(selected_date)
-#         return render_template('result.html', selected_date=selected_date)
-
-
 # @app.route('/', methods=['POST'])
 # def home() -> 'index.html':
 #     selected = request.form['selected']
