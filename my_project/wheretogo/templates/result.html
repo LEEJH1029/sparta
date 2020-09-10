@@ -43,222 +43,63 @@
 
     <script>
         $(document).ready(function () {
-            showWeather_Seoul()
             console.log('{{ selected_date }}')
-            // if ('{{ selected_place }}' == 1) {
-            //     showWeather_Seoul();
-            //     return
-            // }
-            // if ('{{ selected_place }}' == 2) {
-            //     showWeather_Busan();
-            //     return
+            let url;
+            let area;
+            if ('{{ selected_place }}' == 1) {
+                area = '서울'
+                url = "https://api.openweathermap.org/data/2.5/onecall?lat=37.557563&lon=126.976438&exclude=current,%20minutely,%20hourly&appid=6dae93805c76729c7ead695443c6856d";
+            } else if ('{{ selected_place }}' == 6) {
+                area = '부산'
+                url = "https://api.openweathermap.org/data/2.5/onecall?lat=35.154039&lon=129.040598&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d";
             }
+
+            let date = new Date()
+            date.setDate(date.getDate());
+            let newDate = date.getDate()
+            let minusDate = parseInt('{{ selected_date }}'- newDate)
+            console.log(minusDate)
+
+            showWeather(url, area, minusDate);
         });
 
-        function showWeather_Seoul() {
+        function showWeather(url, area, minusDate) {
             $.ajax({
                 type: "GET",
-                url: "https://api.openweathermap.org/data/2.5/onecall?lat=37.557563&lon=126.976438&exclude=current,%20minutely,%20hourly&appid=6dae93805c76729c7ead695443c6856d",
+                url: url,
                 data: {},
                 success: function (response) {
-                    let date = parseInt(response['daily'][7]['dt'])
-                    let temp = (response['daily'][7]['temp']['day'] - 273.15).toFixed(1)
-                    let weathericon = response['daily'][7]['weather'][0]['icon']
+                    let date = parseInt(response['daily'][minusDate]['dt'])
+                    let temp = (response['daily'][minusDate]['temp']['day'] - 273.15).toFixed(1)
+                    let weathericon = response['daily'][minusDate]['weather'][0]['icon']
                     let milliseconds = parseInt(date + '000')
                     let time = new Date(milliseconds);
                     let month = time.getMonth() + 1
                     let day = time.getDate()
                     let newData = `<div class="weather">
-                                            ${month}월 ${day}일 서울 날씨: ${temp}℃
+                                            ${month}월 ${day}일 ${area} 날씨: ${temp}℃
                                             <img class="icon" src="http://openweathermap.org/img/wn/${weathericon}@2x.png"
                                         </div>`
 
                     $('#DayWeather').append(newData);
 
-                    if (response['daily'][7]['weather'][0]['main'] == "Rain") {
-                        showInsidePlaces_Seoul()
-                        return
+                    let inside;
+                    if (response['daily'][minusDate]['weather'][0]['main'] == "Rain") {
+                        inside = 1;
                     } else {
-                        showPlaces_Seoul()
-                        return
+                        inside = 0;
                     }
+                    showPlaces({{ selected_place }}, inside);
                 }
 
 
             })
         }
 
-        function showInsidePlaces_Seoul() {
+        function showPlaces(selected_place, inside) {
             $.ajax({
                 type: 'GET',
-                url: '/places/Seoul',
-                data: {},
-                success: function (response) {
-                    if (response['result'] == 'success') {
-                        let places = response['places']
-                        for (let i = 0; i < places.length; i++) {
-                            if (places[i]['inside'] == 1) {
-                                let title = places[i]['title']
-                                let address = places[i]['addr1']
-
-                                console.log(places[0]['areaCode'])
-
-                                let tempHtml = `<div class="col-lg-4 col-md-6">
-                                                    <div class="single_place">
-                                                        <div class="thumb">
-                                                            <img src="../static/img/place/1.png" alt="">
-                                                        </div>
-                                                        <div class="place_info">
-                                                            <h3>${title}</h3>
-                                                            <p>${address}</p>
-                                                            <br>
-                                                            <div>
-                                                                <button class="btn btn-success"
-                                                                        onclick="window.open('https://map.naver.com/v5/search/${address}')">
-                                                                    지도에 검색
-                                                                </button>
-                                                                <button class="btn btn-success"
-                                                                        onclick="window.open('https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=${title}')">
-                                                                    네이버에 검색
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                             </div>`
-                                $('#post-places').append(tempHtml)
-                            }
-                        }
-                    }
-                }
-            })
-        }
-
-        function showPlaces_Seoul() {
-            $.ajax({
-                type: 'GET',
-                url: '/places/Seoul',
-                data: {},
-                success: function (response) {
-                    if (response['result'] == 'success') {
-                        let places = response['places']
-                        for (let i = 0; i < places.length; i++) {
-                            let title = places[i]['title']
-                            let address = places[i]['addr1']
-
-                            console.log(places[0]['areaCode'])
-
-                            let tempHtml = `<div class="col-lg-4 col-md-6">
-                                                    <div class="single_place">
-                                                        <div class="thumb">
-                                                            <img src="../static/img/place/1.png" alt="">
-                                                        </div>
-                                                        <div class="place_info">
-                                                            <h3>${title}</h3>
-                                                            <p>${address}</p>
-                                                            <br>
-                                                            <div>
-                                                                <button class="btn btn-success"
-                                                                        onclick="window.open('https://map.naver.com/v5/search/${address}')">
-                                                                    지도에 검색
-                                                                </button>
-                                                                <button class="btn btn-success"
-                                                                        onclick="window.open('https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=${title}')">
-                                                                    네이버에 검색
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                             </div>`
-                            $('#post-places').append(tempHtml)
-                        }
-                    }
-                }
-            })
-        }
-
-        function showWeather_Busan() {
-            $.ajax({
-                type: "GET",
-                url: "https://api.openweathermap.org/data/2.5/onecall?lat=35.154039&lon=129.040598&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d",
-                data: {},
-                success: function (response) {
-                    let date = parseInt(response['daily'][7]['dt'])
-                    let temp = (response['daily'][7]['temp']['day'] - 273.15).toFixed(1)
-                    let weathericon = response['daily'][7]['weather'][0]['icon']
-                    let milliseconds = parseInt(date + '000')
-                    let time = new Date(milliseconds);
-                    let month = time.getMonth() + 1
-                    let day = time.getDate()
-                    let newData = `<div class="weather">
-                                            ${month}월 ${day}일 부산 날씨: ${temp}℃
-                                            <img class="icon" src="http://openweathermap.org/img/wn/${weathericon}@2x.png"
-                                        </div>`
-
-                    $('#DayWeather').append(newData);
-
-                    if (response['daily'][7]['weather'][0]['main'] == "Rain") {
-                        showInsidePlaces_Busan()
-                        return
-                    } else {
-                        showPlaces_Busan()
-                        return
-                    }
-                }
-
-
-            })
-        }
-
-        function showInsidePlaces_Busan() {
-            $.ajax({
-                type: 'GET',
-                url: '/places/Busan',
-                data: {},
-                success: function (response) {
-                    if (response['result'] == 'success') {
-                        let places = response['places']
-                        for (let i = 0; i < places.length; i++) {
-                            if (places[i]['inside'] == 1) {
-                                let title = places[i]['title']
-                                let address = places[i]['addr1']
-
-                                console.log(places[0]['areaCode'])
-
-                                let tempHtml = `<div class="col-lg-4 col-md-6">
-                                                    <div class="single_place">
-                                                        <div class="thumb">
-                                                            <img src="../static/img/place/1.png" alt="">
-                                                        </div>
-                                                        <div class="place_info">
-                                                            <h3>${title}</h3>
-                                                            <p>${address}</p>
-                                                            <br>
-                                                            <div>
-                                                                <button class="btn btn-success"
-                                                                        onclick="window.open('https://map.naver.com/v5/search/${address}')">
-                                                                    지도에 검색
-                                                                </button>
-                                                                <button class="btn btn-success"
-                                                                        onclick="window.open('https://search.naver.com/search.naver?sm=top_hty&fbm=0&ie=utf8&query=${title}')">
-                                                                    네이버에 검색
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                             </div>`
-                                $('#post-places').append(tempHtml)
-                            }
-                        }
-                    }
-                }
-            })
-        }
-
-        function showPlaces_Busan() {
-            $.ajax({
-                type: 'GET',
-                url: '/places/Busan',
-                data: {},
+                url: `/places?selected_place=${selected_place}&inside=${inside}`,
                 success: function (response) {
                     if (response['result'] == 'success') {
                         let places = response['places']
@@ -331,7 +172,7 @@
 <!-- header-end -->
 <div class="destination_banner_wrap overlay">
     <div class="destination_text text-center">
-        <h3>Seoul</h3>
+        <h3>대한민국</h3>
     </div>
 </div>
 <!--<div>-->
@@ -343,7 +184,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-6">
                 <div class="section_title text-center mb_70">
-                    <h3>서울(Seoul)</h3>
+                    <h3>검색결과</h3>
                 </div>
             </div>
         </div>

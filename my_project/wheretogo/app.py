@@ -13,22 +13,25 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/result', methods=['POST'])
+@app.route('/result', methods=['get'])
 def result():
-    selected_date = request.form['selected_date']
-    selected_place = request.form['selected_place']
+    selected_date = request.args.get('selected_date')
+    selected_place = request.args.get('selected_place')
     print(selected_place, selected_date)
-    if selected_place == '1':
-        @app.route('/places/Seoul', methods=['GET'])
-        def show_places():
-            places = list(db.places.find({'areaCode': '1'}, {'_id': False, 'areaCode': False}))
-            return jsonify({'result': 'success', 'places': places})
-    if selected_place == '2':
-        @app.route('/places/Busan', methods=['GET'])
-        def show_places():
-            places = list(db.places.find({'areaCode': '6'}, {'_id': False, 'areaCode': False}))
-            return jsonify({'result': 'success', 'places': places})
     return render_template('result.html', selected_date=selected_date, selected_place=selected_place)
+
+
+@app.route('/places', methods=['get'])
+def places():
+    selected_place = request.args.get('selected_place')
+    inside = request.args.get('inside')
+    if inside == '0':
+        inside = None
+    else:
+        inside = int(inside)
+    places = list(db.places.find({'areaCode': selected_place, 'inside': inside}, {'_id': False, 'areaCode': False}))
+    print(places)
+    return jsonify({'result': 'success', 'places': places})
 
 
 if __name__ == '__main__':
