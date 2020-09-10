@@ -9,7 +9,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
 data = requests.post('https://korean.visitkorea.or.kr/call', headers=headers, data={'cmd': 'TOUR_CONTENT_LIST_VIEW',
                                                                                     'month': 'All',
-                                                                                    'areaCode': 1,
+                                                                                    'areaCode': 6,
                                                                                     'sigunguCode': 'All',
                                                                                     'tagId': 'All',
                                                                                     'sortkind': 3,
@@ -28,5 +28,4 @@ for place in places:
         'title': place['title'],
         'imgPath': place['imgPath']
     }
-    # db.places.insert_one(newData)
-    db.places.update_one({'title': '동대문역사문화공원'}, {'$set': {'imgPath': '783a2a83-0f81-4ee0-ba14-b09b70e20603'}})
+    db.places.update_one({'title': place['title']}, {'$set': {'imgPath': place['imgPath']}})

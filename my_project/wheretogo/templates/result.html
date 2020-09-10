@@ -59,7 +59,7 @@
             let newDate = date.getDate()
             let minusDate = parseInt('{{ selected_date }}'- newDate)
             console.log(minusDate)
-
+            $('#place-title').append(area+ ' 검색 결과')
             showWeather(url, area, minusDate);
         });
 
@@ -106,13 +106,14 @@
                         for (let i = 0; i < places.length; i++) {
                             let title = places[i]['title']
                             let address = places[i]['addr1']
+                            let imgsrc = places[i]['imgPath']
 
                             console.log(places[0]['areaCode'])
 
                             let tempHtml = `<div class="col-lg-4 col-md-6">
                                                     <div class="single_place">
                                                         <div class="thumb">
-                                                            <img src="../static/img/place/1.png" alt="">
+                                                            <img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&amp;id=${imgsrc}&amp;thumb" alt="서울식물원">
                                                         </div>
                                                         <div class="place_info">
                                                             <h3>${title}</h3>
@@ -156,7 +157,7 @@
                 <div class="header_bottom_border">
                     <div class="row align-items-center">
                         <div class="logo">
-                            <a href="index.html">
+                            <a href="/">
                                 <img src="../static/img/logo.png" alt="">
                             </a>
                         </div>
@@ -172,7 +173,7 @@
 <!-- header-end -->
 <div class="destination_banner_wrap overlay">
     <div class="destination_text text-center">
-        <h3>대한민국</h3>
+        <h3>Travel in Korea</h3>
     </div>
 </div>
 <!--<div>-->
@@ -184,7 +185,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-6">
                 <div class="section_title text-center mb_70">
-                    <h3>검색결과</h3>
+                    <h3 id="place-title"></h3>
                 </div>
             </div>
         </div>
