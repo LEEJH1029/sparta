@@ -84,7 +84,7 @@
                     $('#DayWeather').append(newData);
 
                     let inside;
-                    if (response['daily'][minusDate]['weather'][0]['main'] == "Rain") {
+                    if (response['daily'][minusDate]['weather'][0]['main'] == ("Rain"||"Snow")) {
                         inside = 1;
                     } else {
                         inside = 0;
