@@ -47,6 +47,51 @@
             } else if ('{{ selected_place }}' == 6) {
                 area = '부산'
                 url = "https://api.openweathermap.org/data/2.5/onecall?lat=35.154039&lon=129.040598&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d";
+            } else if ('{{ selected_place}}' == 2) {
+                area = '인천'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=37.448560&lon=126.680925&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 3) {
+                area = '대전'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=36.339579&lon=127.391159&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 4) {
+                area = '대구'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=35.859206&lon=128.561774&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 5) {
+                area = '광주'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=35.160933&lon=126.831129&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 7) {
+                area = '울산'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=35.543579&lon=129.255144&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 8) {
+                area = '세종'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=36.504565&lon=127.264540&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 31) {
+                area = '경기'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=37.785722&lon=127.229058&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 32) {
+                area = '강원'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=37.719383&lon=128.849629&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 33) {
+                area = '충북'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=36.637782&lon=127.401454&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 34) {
+                area = '충남'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=36.476515&lon=127.082977&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 35) {
+                area = '경북'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=36.416862&lon=128.162384&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 36) {
+                area = '경남'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=35.041241&lon=128.049774&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 37) {
+                area = '전북'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=35.837327&lon=127.114677&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 38) {
+                area = '전남'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=34.936828&lon=126.872809&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
+            } else if ('{{ selected_place }}' == 39) {
+                area = '제주'
+                url = 'https://api.openweathermap.org/data/2.5/onecall?lat=33.431441&lon=126.874237&exclude=current, minutely, hourly&appid=6dae93805c76729c7ead695443c6856d'
             }
 
             let date = new Date()
@@ -193,23 +238,23 @@
             <div class="row">
                 <div class="footer_widget">
                     <p>서울특별시 강남구 논현로 425 (마이다스빌딩) 5층 501호<br>
-                        <a href="#">010-8619-8438</a> <br>
-                        <a href="#">where2go@naver.com</a>
+                        <a>010-8619-8438</a> <br>
+                        <a>where2go@naver.com</a>
                     </p>
                     <div class="socail_links">
                         <ul>
                             <li>
-                                <a href="#">
+                                <a href="https://www.facebook.com" target="_blank">
                                     <i class="ti-facebook"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="https://www.twitter.com" target="_blank">
                                     <i class="ti-twitter-alt"></i>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="https://www.instagram.com" target="_blank">
                                     <i class="fa fa-instagram"></i>
                                 </a>
                             </li>

@@ -9,7 +9,7 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
 data = requests.post('https://korean.visitkorea.or.kr/call', headers=headers, data={'cmd': 'TOUR_CONTENT_LIST_VIEW',
                                                                                     'month': 'All',
-                                                                                    'areaCode': 6,
+                                                                                    'areaCode': 39,
                                                                                     'sigunguCode': 'All',
                                                                                     'tagId': 'All',
                                                                                     'sortkind': 3,

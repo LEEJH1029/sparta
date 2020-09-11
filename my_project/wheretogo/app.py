@@ -17,7 +17,6 @@ def home():
 def result():
     selected_date = request.args.get('selected_date')
     selected_place = request.args.get('selected_place')
-    print(selected_place, selected_date)
     return render_template('result.html', selected_date=selected_date, selected_place=selected_place)
 
 
@@ -30,7 +29,6 @@ def places():
     else:
         inside = int(inside)
     places = list(db.places.find({'areaCode': selected_place, 'inside': inside}, {'_id': False, 'areaCode': False}))
-    print(places)
     return jsonify({'result': 'success', 'places': places})
 
 
